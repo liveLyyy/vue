@@ -8,8 +8,8 @@
     <el-card>
       <el-row :gutter="5">
         <el-col :span="10">
-          <el-input placeholder="请输入内容" clearable>
-            <el-button slot="append" icon="el-icon-search"></el-button>
+          <el-input placeholder="请输入内容" v-model="queryInfo.title"  clearable  @clear="getArticle">
+            <el-button slot="append" icon="el-icon-search" @click="getArticle"></el-button>
           </el-input>
         </el-col>
       </el-row>
@@ -28,15 +28,15 @@
         <el-table-column fixed="right" width="200" label="操作">
           <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="浏览" placement="top">
-              <el-button type="success" icon="el-icon-view" size="mini"
+              <el-button type="success" icon="el-icon-view" size="mini" @click="showArticle"
               ></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="修改" placement="top">
-              <el-button type="primary" icon="el-icon-edit" size="mini"
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="editArticle"
               ></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除" placement="top">
-              <el-button type="danger" icon="el-icon-delete" size="mini"
+              <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeArticle(scope.row.aId)"
               ></el-button>
             </el-tooltip>
           </template>
@@ -64,6 +64,10 @@
       return {
         queryInfo: {
           list: '',
+          aId:'',
+          title:'',
+          desc:'',
+          content:'',
           pageCount: 1,
           pageSize: 5,
         },
@@ -71,6 +75,7 @@
         total: 0,
         addDialogVisible: false,
         editDialogVisible: false,
+        activePath:''
       }
     }, created() {
       this.getArticle()
@@ -90,6 +95,7 @@
           return this.$message.error("获取列表失败!!!");
         }
         this.ArticleList = res.data.list;
+        this.aId=res.data.aId;
         this.total = res.data.total;
       },
       handleSizeChange(newSize) {
@@ -98,6 +104,28 @@
       },
       handleCurrentChange(newPage) {
         this.queryInfo.pageCount = newPage
+        this.getArticle()
+      },
+      showArticle(){
+        this.$router.push("/showArticle");
+      },
+      editArticle(){
+        this.$router.push("/editArticle");
+      },
+      async removeArticle(aId){
+        const result = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).catch(err => err)
+        if (result !== 'confirm') {
+          return this.$message.info("已取消删除")
+        }
+        const {data: res} = await this.$http.delete('/sys/deleteByIdArticle/' + aId)
+        if (res.code !== 200) {
+          return this.$message.error("删除用户失败!!!")
+        }
+        this.$message.success("删除用户成功")
         this.getArticle()
       }
     }

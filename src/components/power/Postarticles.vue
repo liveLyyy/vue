@@ -27,11 +27,10 @@
             </el-radio-group>
           </el-form-item>
           <el-form-item label="正文内容" prop="content">
-            <editor api-key="no-api-key" :init="editorList" v-model="queryInfo.content"></editor>
+            <editor api-key="afyohn2wcmrxhgiihsjime70hbzpqvtoh78a04tr305y0bfr" :init="editorList" v-model="queryInfo.content"></editor>
           </el-form-item>
           <el-form-item>
             <el-button type="primary" @click="addArticle">立即创建</el-button>
-            <el-button>重置</el-button>
           </el-form-item>
         </el-form>
       </el-card>
@@ -101,8 +100,7 @@
             }
             this.$message.success("文章发布成功")
             this.$router.push("/articles");
-        },
-
+        }
       }
     }
 </script>

@@ -8,6 +8,8 @@ import Rights from '@/components/power/Rights'
 import Categorys from '@/components/power/Categorys'
 import Articles from '@/components/power/Articles'
 import Postarticles from '@/components/power/Postarticles'
+import ShowArticle from '@/components/power/ShowArticle'
+import EditArticle from '@/components/power/EditArticle'
 
 Vue.use(Router)
 const router = new Router({
@@ -20,7 +22,7 @@ const router = new Router({
       path: '/login',
       name: 'Login',
       component: Login
-    }, {
+    },{
       path: '/home',
       name: 'Home',
       component: Home,
@@ -50,6 +52,14 @@ const router = new Router({
           path: '/postarticles',
           name: 'Postarticles',
           component: Postarticles
+        },{
+          path: '/showArticle',
+          name: 'ShowArticle',
+          component: ShowArticle
+        },{
+          path: '/editArticle',
+          name: 'EditArticle',
+          component: EditArticle
         }
       ]
     }
