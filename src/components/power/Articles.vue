@@ -28,12 +28,13 @@
         <el-table-column fixed="right" width="200" label="操作">
           <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="浏览" placement="top">
-              <el-button type="success" icon="el-icon-view" size="mini" @click="showArticle"
+              <el-button type="success" icon="el-icon-view" size="mini" @click="showArticle(scope.row.aId)"
               ></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="修改" placement="top">
-              <el-button type="primary" icon="el-icon-edit" size="mini" @click="editArticle"
+              <el-button type="primary" icon="el-icon-edit" size="mini" @click="editArticle(scope.row.aId)"
               ></el-button>
+<!--              <router-link :to="{ path: '/showArticle',query:{aId:aId}}">跳转B组件</router-link>-->
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除" placement="top">
               <el-button type="danger" icon="el-icon-delete" size="mini" @click="removeArticle(scope.row.aId)"
@@ -72,6 +73,7 @@
           pageSize: 5,
         },
         ArticleList: [],
+        showFrom:'',
         total: 0,
         addDialogVisible: false,
         editDialogVisible: false,
@@ -81,6 +83,7 @@
       this.getArticle()
     },
     methods: {
+      //格式化时间显示
       dateFormat: function (row, column) {
         var date = row[column.property];
         if (date == undefined) {
@@ -89,6 +92,7 @@
         var moment = require("moment");
         return moment(date).format("YYYY-MM-DD HH:mm:ss");
       },
+      //获取文章列表
       async getArticle() {
         const {data: res} = await this.$http.get('/sys/getArticle', {params: this.queryInfo})
         if (res.code !== 200) {
@@ -106,12 +110,19 @@
         this.queryInfo.pageCount = newPage
         this.getArticle()
       },
-      showArticle(){
-        this.$router.push("/showArticle");
+      //跳转到预览文章页面，并传递文章ID
+      showArticle(aId){
+        this.$router.push({
+          name:'ShowArticle'
+          ,params:{aId:aId}})
       },
-      editArticle(){
-        this.$router.push("/editArticle");
+      //跳转到修改文章页面，并传递文章ID
+      editArticle(aId){
+        this.$router.push({
+          name:'EditArticle'
+          ,params:{aId:aId}})
       },
+      //根据ID删除文章
       async removeArticle(aId){
         const result = await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
           confirmButtonText: '确定',

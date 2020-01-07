@@ -35,7 +35,7 @@
           <template slot-scope="scope">
             <el-tooltip class="item" effect="dark" content="修改" placement="top">
               <el-button type="primary" icon="el-icon-edit" size="mini"
-                         @click=" (scope.row.id)"></el-button>
+                         @click=" showEditDialog(scope.row.id)"></el-button>
             </el-tooltip>
             <el-tooltip class="item" effect="dark" content="删除" placement="top">
               <el-button type="danger" icon="el-icon-delete" size="mini"

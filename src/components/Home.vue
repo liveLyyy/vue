@@ -44,7 +44,9 @@
 </template>
 
 <script>
+  import Index from "element-ui/src/utils/popup";
   export default {
+    components: {Index},
     data() {
       return {
         //左侧菜单数据
