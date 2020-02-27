@@ -78,7 +78,7 @@
       },
       //获取所有菜单
       async getMenuList() {
-        const {data: res} = await this.$http.get('/sys/getMenu')
+        const {data: res} = await this.$http.get('/sys/menu')
         if (res.code !== 200) return this.$message.error("获取菜单数据失败");
         this.menulist = res.data
       },

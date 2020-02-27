@@ -121,7 +121,7 @@
     },
     methods: {
       async getCategoryList() {
-        const {data: res} = await this.$http.get('/sys/findCatetory', {params: this.queryInfo})
+        const {data: res} = await this.$http.get('/sys/catetory', {params: this.queryInfo})
         if (res.code !== 200) {
           return this.$message.error("获取列表失败!!!");
         }
@@ -151,7 +151,7 @@
       addCategory() {
         this.$refs.addFormRef.validate(async valid => {
           if (!valid) return
-          const {data: res} = await this.$http.post('/sys/addCategory', this.addForm)
+          const {data: res} = await this.$http.post('/sys/catetory', this.addForm)
           if (res.code !== 200) {
             this.$message.error("添加用户失败！！！")
           }
@@ -161,7 +161,7 @@
         })
       },
       async shwoDialog(id) {
-        const {data: res} = await this.$http.get('/sys/findByIdCategory/' + id)
+        const {data: res} = await this.$http.get('/sys/catetory/' + id)
         if (res.code !== 200){
           return this.$message.error("根据ID查询分类失败")
         }
@@ -173,7 +173,7 @@
           // console.log(valid)
           if (!valid) return
           //发起用户修改的请求
-          const {data: res} = await this.$http.put('/sys/updateByIdCategory/' + this.editFrom.cid, {
+          const {data: res} = await this.$http.put('/sys/catetory/' + this.editFrom.cid, {
             cname: this.editFrom.cname,
             sort: this.editFrom.sort
           })
@@ -199,7 +199,7 @@
         if (result !== 'confirm') {
           return this.$message.info("已取消删除")
         }
-        const {data: res} = await this.$http.delete('sys/deleteByIdCategory/' + cid)
+        const {data: res} = await this.$http.delete('sys/catetory/' + cid)
         if (res.code !== 200) {
           return this.$message.error("删除用户失败!!!")
         }

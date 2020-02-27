@@ -56,7 +56,7 @@
       login() {
         this.$refs.loginFromRef.validate((async valid => {
           if (!valid) return;
-          const {data: res} = await this.$http.post("user/login", this.loginForm);
+          const {data: res} = await this.$http.post("/sys/login", this.loginForm);
           if (res.code !==200)return this.$message.error("登录失败！！！");
           this.$message.success("登录成功");
           window.sessionStorage.setItem('token',res.data.token);

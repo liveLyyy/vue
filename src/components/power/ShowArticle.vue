@@ -3,7 +3,6 @@
     <el-page-header @back="goBack" content="文章预览">
     </el-page-header>
     <el-card>
-      <el-form >
       <el-form>
         <el-container>
           <!--标题信息-->
@@ -29,13 +28,14 @@
                   <el-tag>类别：{{cname}}</el-tag>
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple-light">
-                  <el-tag type="success">概要：{{showForm.desc}}</el-tag>
+                  <el-tag type="success">概要：{{showForm.descs}}</el-tag>
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
                   <el-tag type="info">更新时间：{{showForm.updateTime}}</el-tag>
                 </div></el-col>
                 <el-col :span="6"><div class="grid-content bg-purple">
-                  <el-tag type="warning">是否置顶：{{showForm.isTop}}</el-tag>
+                  <el-tag v-if="isTop === 0">是否置顶：否</el-tag>
+                  <el-tag  v-if="isTop === 1" type="success">是否置顶：是</el-tag>
                 </div></el-col>
               </el-row>
             </el-row>
@@ -45,7 +45,6 @@
             <p v-html="showForm.content"></p>
           </el-main>
         </el-container>
-      </el-form>
       </el-form>
     </el-card>
   </div>
@@ -65,7 +64,7 @@
         username:'',
         cname:'',
           title:'',
-          desc:'',
+          descs:'',
           content:'',
           likes:'',
           views:'',
@@ -102,13 +101,14 @@
 
       },
       async findByIdArticle(aId) {
-        const {data: res} = await this.$http.get('/sys/findByIdArticle/' + this.aId)
+        const {data: res} = await this.$http.get('/sys/article/' + this.aId)
         if (res.code !== 200) {
           return this.$message.error("查询路径失败")
         }
         this.showForm = res.data
         this.username=res.data.user.username
         this.cname=res.data.category.cname
+        this.isTop=res.data.isTop
       }
     }
   }
@@ -116,15 +116,22 @@
 
 <style scoped>
   .el-card {
-    margin-top: 20px;
+    margin-top: 10px;
+    font-family: 宋体;
   }
   h1{
     text-align: center;
+    font-size: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: 黑体;
   }
   .el-row{
     text-align: center;
   }
   .el-main{
-    margin-top: 70px;
+    margin-top: 50px;
+    font-family: 宋体;
+    font-size: 18px;
   }
 </style>

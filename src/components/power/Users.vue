@@ -67,12 +67,6 @@
           <el-form-item label="邮箱" prop="email">
             <el-input v-model="addForm.email"></el-input>
           </el-form-item>
-          <!--          <el-form-item label="用户角色">-->
-          <!--            <el-select placeholder="请选择角色" v-model="userList.role">-->
-          <!--              <el-option v-for="item in userList" :key="item.id" :lable="item.rolename"-->
-          <!--                         :value="item.role.rolename"></el-option>-->
-          <!--            </el-select>-->
-          <!--          </el-form-item>-->
         </el-form>
         <!--底部区域-->
         <span slot="footer" class="dialog-footer">
@@ -142,6 +136,7 @@
           list: '',
           pageCount: 1,
           pageSize: 5,
+
         },
         userList: [],
         total: 0,
@@ -150,7 +145,6 @@
         editDialogVisible: false,
         //添加用户表单
         addForm: {
-          rid:'',
           username: '',
           password: '',
           phone: '',
@@ -191,7 +185,7 @@
     },
     methods: {
       async getUserList() {
-        const {data: res} = await this.$http.get('/user/users', {params: this.quryInfo})
+        const {data: res} = await this.$http.get('sys/user/', {params: this.quryInfo})
         if (res.code !== 200) {
           return this.$message.error("获取列表失败!!!");
         }
@@ -218,7 +212,7 @@
           // console.log(valid)
           if (!valid) return
           // //可以发起添加用户的网络请求
-          const {data: res} = await this.$http.post('/user/addUsers', this.addForm)
+          const {data: res} = await this.$http.post('/sys/user/', this.addForm)
           if (res.code !== 200) {
             this.$message.error("添加用户失败！！！")
           }
@@ -230,7 +224,7 @@
       },
       //监听修改弹出框
       async showEditDialog(id) {
-        const {data: res} = await this.$http.get('/user/findById/' + id)
+        const {data: res} = await this.$http.get('/sys/user/' + id)
         if (res.code !== 200) {
           return this.$message.error("查询路径失败")
         }
@@ -248,7 +242,7 @@
           // console.log(valid)
           if (!valid) return
           //发起用户修改的请求
-          const {data: res} = await this.$http.put('/user/updateUser/' + this.editFrom.id, {
+          const {data: res} = await this.$http.put('/sys/user/' + this.editFrom.id, {
             phone: this.editFrom.phone,
             email: this.editFrom.email
           })
@@ -272,7 +266,7 @@
         if (result !== 'confirm') {
           return this.$message.info("已取消删除")
         }
-        const {data: res} = await this.$http.delete('/user/deleteByIdUser/' + id)
+        const {data: res} = await this.$http.delete('/sys/user/' + id)
         if (res.code !== 200) {
           return this.$message.error("删除用户失败!!!")
         }

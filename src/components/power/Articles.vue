@@ -94,7 +94,7 @@
       },
       //获取文章列表
       async getArticle() {
-        const {data: res} = await this.$http.get('/sys/getArticle', {params: this.queryInfo})
+        const {data: res} = await this.$http.get('/sys/article', {params: this.queryInfo})
         if (res.code !== 200) {
           return this.$message.error("获取列表失败!!!");
         }
@@ -132,7 +132,7 @@
         if (result !== 'confirm') {
           return this.$message.info("已取消删除")
         }
-        const {data: res} = await this.$http.delete('/sys/deleteByIdArticle/' + aId)
+        const {data: res} = await this.$http.delete('/sys/article/' + aId)
         if (res.code !== 200) {
           return this.$message.error("删除用户失败!!!")
         }

@@ -17,8 +17,8 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="文章概括" prop="desc">
-            <el-input resize="none" type="textarea" autosize v-model="queryInfo.desc"></el-input>
+          <el-form-item label="文章概括" prop="descs">
+            <el-input resize="none" type="textarea" autosize v-model="queryInfo.descs"></el-input>
           </el-form-item>
           <el-form-item label="是否置顶"  prop="isTop" >
             <el-radio-group v-model="queryInfo.isTop" @change="chageisTop">
@@ -49,7 +49,7 @@
             queryInfo: {
               cId:[],
               title:'',
-              desc:'',
+              descs:'',
               content:'',
               isTop:''
             },
@@ -75,7 +75,7 @@
         this.getCategoryList()
       },methods:{
         async getCategoryList(){
-          const {data: res} = await this.$http.get('/sys/findAllCategory')
+          const {data: res} = await this.$http.get('/sys/catetoryall/')
           if (res.code !== 200) {
             return this.$message.error("获取类别列表失败!!!")
           }
@@ -94,7 +94,7 @@
             })
         },
         async  addArticle(){
-            const {data: res} = await this.$http.post('/sys/addArticle', this.queryInfo)
+            const {data: res} = await this.$http.post('/sys/article/', this.queryInfo)
             if (res.code !== 200){
               this.$message.error("文章发布失败！！！")
             }
